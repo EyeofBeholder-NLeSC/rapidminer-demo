@@ -16,7 +16,7 @@
         <parameter key="repository_entry" value="//rapidminer-demo/data/multidimensional_with_crt"/>
       </operator>
       <operator activated="true" class="reporting:generate_report" compatibility="8.1.000" expanded="true" height="82" name="Generate Report" width="90" x="246" y="136">
-        <parameter key="report_name" value="eda"/>
+        <parameter key="report_name" value="Visual explroation of input data"/>
         <parameter key="format" value="PDF"/>
         <parameter key="report_to_repository" value="false"/>
         <parameter key="pdf_output_file" value="C:/Workspace/rm_repos/rapidminer-demo/visualizations/reports/eda.pdf"/>
@@ -79,7 +79,7 @@
         <parameter key="table_row_color_two" value="192,192,192"/>
       </operator>
       <operator activated="true" class="multiply" compatibility="9.10.007" expanded="true" height="124" name="Multiply" width="90" x="380" y="136"/>
-      <operator activated="true" class="concurrency:correlation_matrix" compatibility="9.10.007" expanded="true" height="103" name="Correlation Matrix" width="90" x="514" y="340">
+      <operator activated="true" class="concurrency:correlation_matrix" compatibility="9.10.007" expanded="true" height="103" name="Correlation Matrix" width="90" x="514" y="136">
         <parameter key="attribute_filter_type" value="value_type"/>
         <parameter key="attribute" value=""/>
         <parameter key="attributes" value=""/>
@@ -95,7 +95,9 @@
         <parameter key="normalize_weights" value="true"/>
         <parameter key="squared_correlation" value="false"/>
       </operator>
-      <operator activated="true" class="reporting:report" compatibility="8.1.000" expanded="true" height="68" name="correlation matrix" width="90" x="648" y="340">
+      <operator activated="true" class="reporting:report" compatibility="8.1.000" expanded="true" height="68" name="correlation matrix" width="90" x="648" y="136">
+        <parameter key="report_name" value="Visual explroation of input data"/>
+        <parameter key="report_item_header" value="Correlation matrix: numerical features"/>
         <parameter key="finalize_report" value="false"/>
         <parameter key="specified" value="true"/>
         <parameter key="reportable_type" value="Numerical Matrix"/>
@@ -104,18 +106,9 @@
         <parameter key="image_width" value="800"/>
         <parameter key="image_height" value="600"/>
       </operator>
-      <operator activated="true" class="reporting:report" compatibility="8.1.000" expanded="true" height="68" name="coder: age + school" width="90" x="514" y="136">
-        <parameter key="finalize_report" value="false"/>
-        <parameter key="specified" value="true"/>
-        <parameter key="reportable_type" value="Data table"/>
-        <parameter key="renderer_name" value="Visualizations"/>
-        <list key="parameters">
-          <parameter key="chart_configuration" value="C:/Workspace/rm_repos/rapidminer-demo/visualizations/configs/coder-heatmap-age-school.json"/>
-        </list>
-        <parameter key="image_width" value="800"/>
-        <parameter key="image_height" value="600"/>
-      </operator>
-      <operator activated="true" class="reporting:report" compatibility="8.1.000" expanded="true" height="68" name="coder: age" width="90" x="514" y="238">
+      <operator activated="true" class="reporting:report" compatibility="8.1.000" expanded="true" height="68" name="coder: age" width="90" x="514" y="289">
+        <parameter key="report_name" value="Visual explroation of input data"/>
+        <parameter key="report_item_header" value="Distribution: coder age"/>
         <parameter key="finalize_report" value="false"/>
         <parameter key="specified" value="true"/>
         <parameter key="reportable_type" value="Data table"/>
@@ -126,11 +119,24 @@
         <parameter key="image_width" value="800"/>
         <parameter key="image_height" value="600"/>
       </operator>
+      <operator activated="true" class="reporting:report" compatibility="8.1.000" expanded="true" height="68" name="coder: age + school" width="90" x="514" y="391">
+        <parameter key="report_name" value="Visual explroation of input data"/>
+        <parameter key="report_item_header" value="Correlation: coder age and education level"/>
+        <parameter key="finalize_report" value="false"/>
+        <parameter key="specified" value="true"/>
+        <parameter key="reportable_type" value="Data table"/>
+        <parameter key="renderer_name" value="Visualizations"/>
+        <list key="parameters">
+          <parameter key="chart_configuration" value="C:/Workspace/rm_repos/rapidminer-demo/visualizations/configs/coder-heatmap-age-school.json"/>
+        </list>
+        <parameter key="image_width" value="800"/>
+        <parameter key="image_height" value="600"/>
+      </operator>
       <connect from_op="Retrieve multidimensional_with_crt" from_port="output" to_op="Generate Report" to_port="through 1"/>
       <connect from_op="Generate Report" from_port="through 1" to_op="Multiply" to_port="input"/>
-      <connect from_op="Multiply" from_port="output 1" to_op="coder: age + school" to_port="reportable in"/>
+      <connect from_op="Multiply" from_port="output 1" to_op="Correlation Matrix" to_port="example set"/>
       <connect from_op="Multiply" from_port="output 2" to_op="coder: age" to_port="reportable in"/>
-      <connect from_op="Multiply" from_port="output 3" to_op="Correlation Matrix" to_port="example set"/>
+      <connect from_op="Multiply" from_port="output 3" to_op="coder: age + school" to_port="reportable in"/>
       <connect from_op="Correlation Matrix" from_port="matrix" to_op="correlation matrix" to_port="reportable in"/>
       <portSpacing port="source_input 1" spacing="0"/>
       <portSpacing port="sink_result 1" spacing="0"/>
