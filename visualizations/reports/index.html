@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+<title>report</title>
+<style type="text/css">
+html { font-family: sans-serif; font-size: 14px; }
+body { max-width:210mm; margin: 0 auto;}
+header h1 {font-size: 4rem;}
+h1 {font-size: 3rem;}
+h2 {font-size: 2.6rem;}
+h3 {font-size: 2.2rem;}
+h4 {font-size: 2.0rem;}
+ul {list-style-type: none;}
+nav li a{color: black; text-decoration: none;}
+table, tr, td, th { border-style: solid; border-color: #ccc; border-width: 0px;}
+table {border-spacing: 0px; border-width: 0px 1px 1px 0px;}
+td, th {border-width: 1px 0px 0px 1px; padding: 5px;}
+th {background-color: #eee}
+footer {text-align:center; border-top: 1px solid #CCC;}
+footer a {text-decoration: none; color: #e75424;}
+@media print {
+ footer {
+    position: fixed;
+	bottom: 0;
+	width: 100%;
+  }
+}
+header img{vertical-align:middle;}
+img { border: 0; }
+section {page-break-inside: avoid;}
+</style>
+</head>
+<body>
+<header>
+<h1> 
+<img src="logo.png" width="128" height="128" alt="Report Logo"/>
+
+<span>report</span>
+</h1>
+</header>
+<div>
+<h2>Table of content</h2>
+<nav>
+<ul>
+<li><a href="#l1">Data table Data View</a>
+</li>
+<li><a href="#l2">Data table Visualizations</a>
+</li>
+<li><a href="#l3">Data table Visualizations</a>
+</li>
+</ul>
+
+</nav>
+</div>
+<div>
+<section>
+<h4 id="l1">Data table Data View</h4>
+<table>
+<thead>
+<tr>
+<th>unit_id</th>
+<th>tries_amount</th>
+<th>questionnaire_amount</th>
+<th>dimensions_amount</th>
+<th>document_amount</th>
+<th>current_try</th>
+<th>q_0_age_question</th>
+<th>q_0_age_answer</th>
+<th>q_0_age_value</th>
+<th>q_0_school_question</th>
+<th>q_0_school_answer</th>
+<th>q_0_school_value</th>
+<th>q_0_taxes_question</th>
+<th>q_0_taxes_answer</th>
+<th>q_0_taxes_value</th>
+<th>q_0_political_views_question</th>
+<th>q_0_political_views_answer</th>
+<th>q_0_political_views_value</th>
+<th>q_0_consideration_question</th>
+<th>q_0_consideration_answer</th>
+<th>q_0_consideration_value</th>
+<th>q_0_southern_border_question</th>
+<th>q_0_southern_border_answer</th>
+<th>q_0_southern_border_value</th>
+<th>q_0_environment_question</th>
+<th>q_0_environment_answer</th>
+<th>q_0_environment_value</th>
+<th>q_0_time_elapsed</th>
+<th>q_0_accesses</th>
+<th>q_1_farmers_question</th>
+<th>q_1_farmers_answer</th>
+<th>q_1_farmers_value</th>
+<th>q_1_time_elapsed</th>
+<th>q_1_accesses</th>
+<th>q_2_marks_question</th>
+<th>q_2_marks_answer</th>
+<th>q_2_marks_value</th>
+<th>q_2_time_elapsed</th>
+<th>q_2_accesses</th>
+<th>q_3_athletics_question</th>
+<th>q_3_athletics_answer</th>
+<th>q_3_athletics_value</th>
+<th>q_3_time_elapsed</th>
+<th>q_3_accesses</th>
+<th>doc_index</th>
+<th>doc_name</th>
+<th>doc_statement</th>
+<th>doc_claimant</th>
+<th>doc_date</th>
+<th>doc_originatedFrom</th>
+<th>doc_ground_truth_value</th>
+<th>doc_ground_truth_abc_label</th>
+<th>doc_ground_truth_abc_verdict</th>
+<th>doc_ground_truth_politifact_label</th>
+<th>doc_source</th>
+<th>doc_overall-truthfulness_value</th>
+<th>doc_overall-truthfulness_label</th>
+<th>doc_overall-truthfulness_justification</th>
+<th>doc_overall-truthfulness_url</th>
+<th>doc_confidence_value</th>
+<th>doc_confidence_label</th>
+<th>doc_confidence_justification</th>
+<th>doc_confidence_url</th>
+<th>doc_correctness_value</th>
+<th>doc_correctness_label</th>
+<th>doc_correctness_justification</th>
+<th>doc_correctness_url</th>
+<th>doc_neutrality_value</th>
+<th>doc_neutrality_label</th>
+<th>doc_neutrality_justification</th>
+<th>doc_neutrality_url</th>
+<th>doc_comprehensibility_value</th>
+<th>doc_comprehensibility_label</th>
+<th>doc_comprehensibility_justification</th>
+<th>doc_comprehensibility_url</th>
+<th>doc_precision_value</th>
+<th>doc_precision_label</th>
+<th>doc_precision_justification</th>
+<th>doc_precision_url</th>
+<th>doc_completeness_value</th>
+<th>doc_completeness_label</th>
+<th>doc_completeness_justification</th>
+<th>doc_completeness_url</th>
+<th>doc_speaker's-trustworthiness_value</th>
+<th>doc_speaker's-trustworthiness_label</th>
+<th>doc_speaker's-trustworthiness_justification</th>
+<th>doc_speaker's-trustworthiness_url</th>
+<th>doc_informativeness_value</th>
+<th>doc_informativeness_label</th>
+<th>doc_informativeness_justification</th>
+<th>doc_informativeness_url</th>
+<th>doc_accesses</th>
+<th>doc_time_elapsed</th>
+<th>q_1_farmers_score</th>
+<th>q_2_marks_score</th>
+<th>q_3_athletics_score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>unit_1</td>
+<td>10</td>
+<td>4</td>
+<td>9</td>
+<td>11</td>
+<td>1</td>
+<td>What is your age range?</td>
+<td>26-35</td>
+<td>2</td>
+<td>What is the highest level of school you have completed or the highest degree you have received?</td>
+<td>Some college (some community college, associate&#226;&#8364;&#8482;s degree)</td>
+<td>2</td>
+<td>Last year what was your total family income from all sources, before taxes?</td>
+<td>30,000 to less than 40,000</td>
+<td>3</td>
+<td>In general, would you describe your political views as</td>
+<td>Very liberal</td>
+<td>4</td>
+<td>In politics today, do you consider yourself a</td>
+<td>Independent</td>
+<td>2</td>
+<td>Should the U.S. build a wall along the southern border?</td>
+<td>Disagree</td>
+<td>1</td>
+<td>Should the government increase environmental regulations to prevent climate change?</td>
+<td>Agree</td>
+<td>0</td>
+<td>38.600</td>
+<td>1</td>
+<td>If three farmers can plant three trees in three hours, how long (i.e., how many hours) would it take nine farmers to plant nine trees?</td>
+<td>?</td>
+<td>1</td>
+<td>17.980</td>
+<td>1</td>
+<td>Sean received both the 5th highest and the 5th lowest mark in the class. How many students are there in the class?</td>
+<td>?</td>
+<td>9</td>
+<td>23.910</td>
+<td>1</td>
+<td>In an athletics team, females are four times more likely to win a medal than males. This year the team has won 20 medals so far. How many of these have been won by males?</td>
+<td>?</td>
+<td>4</td>
+<td>274.190</td>
+<td>1</td>
+<td>0</td>
+<td>Liberal_In_Between_doc1</td>
+<td>What the states do is a matter for the states The constitution provides that marriage is a responsibility of the Commonwealth parliament And as you know the Commonwealth parliament recently voted on this subject and by a fairly decisive margin decided to stick with the existing Marriage Act</td>
+<td>Tony Abbott</td>
+<td>2013</td>
+<td>?</td>
+<td>3</td>
+<td>in-between</td>
+<td>lawyer's picnic</td>
+<td>?</td>
+<td>abc</td>
+<td>1</td>
+<td>agree</td>
+<td>?</td>
+<td>https://www.thenewamerican.com/usnews/constitution/item/15954-may-the-federal-government-define-marriage</td>
+<td>-1</td>
+<td>disagree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>agree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>agree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>agree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>agree</td>
+<td>?</td>
+<td>?</td>
+<td>-1</td>
+<td>disagree</td>
+<td>?</td>
+<td>?</td>
+<td>0</td>
+<td>neither-agree-nor-disagree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>agree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>175.610</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>unit_1</td>
+<td>10</td>
+<td>4</td>
+<td>9</td>
+<td>11</td>
+<td>1</td>
+<td>What is your age range?</td>
+<td>26-35</td>
+<td>2</td>
+<td>What is the highest level of school you have completed or the highest degree you have received?</td>
+<td>Some college (some community college, associate&#226;&#8364;&#8482;s degree)</td>
+<td>2</td>
+<td>Last year what was your total family income from all sources, before taxes?</td>
+<td>30,000 to less than 40,000</td>
+<td>3</td>
+<td>In general, would you describe your political views as</td>
+<td>Very liberal</td>
+<td>4</td>
+<td>In politics today, do you consider yourself a</td>
+<td>Independent</td>
+<td>2</td>
+<td>Should the U.S. build a wall along the southern border?</td>
+<td>Disagree</td>
+<td>1</td>
+<td>Should the government increase environmental regulations to prevent climate change?</td>
+<td>Agree</td>
+<td>0</td>
+<td>38.600</td>
+<td>1</td>
+<td>If three farmers can plant three trees in three hours, how long (i.e., how many hours) would it take nine farmers to plant nine trees?</td>
+<td>?</td>
+<td>1</td>
+<td>17.980</td>
+<td>1</td>
+<td>Sean received both the 5th highest and the 5th lowest mark in the class. How many students are there in the class?</td>
+<td>?</td>
+<td>9</td>
+<td>23.910</td>
+<td>1</td>
+<td>In an athletics team, females are four times more likely to win a medal than males. This year the team has won 20 medals so far. How many of these have been won by males?</td>
+<td>?</td>
+<td>4</td>
+<td>274.190</td>
+<td>1</td>
+<td>1</td>
+<td>Labor_Negative_doc3</td>
+<td>Mr Abbott seems to be suffering from just a little bit of amnesia Mr Rudd saidWhen he was health minister he cut 1 billion from the public hospitals budget of Australia</td>
+<td>Kevin Rudd</td>
+<td>2013</td>
+<td>?</td>
+<td>4</td>
+<td>negative</td>
+<td>wrong</td>
+<td>?</td>
+<td>abc</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>https://www.theguardian.com/world/2014/may/19/hospital-cuts-begin-july-tony-abbott-admits</td>
+<td>0</td>
+<td>neither-agree-nor-disagree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>-1</td>
+<td>disagree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>88.390</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>unit_1</td>
+<td>10</td>
+<td>4</td>
+<td>9</td>
+<td>11</td>
+<td>1</td>
+<td>What is your age range?</td>
+<td>26-35</td>
+<td>2</td>
+<td>What is the highest level of school you have completed or the highest degree you have received?</td>
+<td>Some college (some community college, associate&#226;&#8364;&#8482;s degree)</td>
+<td>2</td>
+<td>Last year what was your total family income from all sources, before taxes?</td>
+<td>30,000 to less than 40,000</td>
+<td>3</td>
+<td>In general, would you describe your political views as</td>
+<td>Very liberal</td>
+<td>4</td>
+<td>In politics today, do you consider yourself a</td>
+<td>Independent</td>
+<td>2</td>
+<td>Should the U.S. build a wall along the southern border?</td>
+<td>Disagree</td>
+<td>1</td>
+<td>Should the government increase environmental regulations to prevent climate change?</td>
+<td>Agree</td>
+<td>0</td>
+<td>38.600</td>
+<td>1</td>
+<td>If three farmers can plant three trees in three hours, how long (i.e., how many hours) would it take nine farmers to plant nine trees?</td>
+<td>?</td>
+<td>1</td>
+<td>17.980</td>
+<td>1</td>
+<td>Sean received both the 5th highest and the 5th lowest mark in the class. How many students are there in the class?</td>
+<td>?</td>
+<td>9</td>
+<td>23.910</td>
+<td>1</td>
+<td>In an athletics team, females are four times more likely to win a medal than males. This year the team has won 20 medals so far. How many of these have been won by males?</td>
+<td>?</td>
+<td>4</td>
+<td>274.190</td>
+<td>1</td>
+<td>2</td>
+<td>Labor_Positive_doc1</td>
+<td>Australia is one of only eight countries given a rating of AAA with a stable outlook from all three credit rating agenciesThese are the real facts and no amount of negative political spin will change that</td>
+<td>Kevin Rudd</td>
+<td>2013</td>
+<td>?</td>
+<td>3</td>
+<td>positive</td>
+<td>accurate</td>
+<td>?</td>
+<td>abc</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>https://www.reuters.com/article/us-health-coronavirus-australia-rating-idUSKBN21I0DS</td>
+<td>0</td>
+<td>neither-agree-nor-disagree</td>
+<td>?</td>
+<td>?</td>
+<td>0</td>
+<td>neither-agree-nor-disagree</td>
+<td>?</td>
+<td>?</td>
+<td>-1</td>
+<td>disagree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>-1</td>
+<td>disagree</td>
+<td>?</td>
+<td>?</td>
+<td>0</td>
+<td>neither-agree-nor-disagree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>agree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>84.600</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>unit_1</td>
+<td>10</td>
+<td>4</td>
+<td>9</td>
+<td>11</td>
+<td>1</td>
+<td>What is your age range?</td>
+<td>26-35</td>
+<td>2</td>
+<td>What is the highest level of school you have completed or the highest degree you have received?</td>
+<td>Some college (some community college, associate&#226;&#8364;&#8482;s degree)</td>
+<td>2</td>
+<td>Last year what was your total family income from all sources, before taxes?</td>
+<td>30,000 to less than 40,000</td>
+<td>3</td>
+<td>In general, would you describe your political views as</td>
+<td>Very liberal</td>
+<td>4</td>
+<td>In politics today, do you consider yourself a</td>
+<td>Independent</td>
+<td>2</td>
+<td>Should the U.S. build a wall along the southern border?</td>
+<td>Disagree</td>
+<td>1</td>
+<td>Should the government increase environmental regulations to prevent climate change?</td>
+<td>Agree</td>
+<td>0</td>
+<td>38.600</td>
+<td>1</td>
+<td>If three farmers can plant three trees in three hours, how long (i.e., how many hours) would it take nine farmers to plant nine trees?</td>
+<td>?</td>
+<td>1</td>
+<td>17.980</td>
+<td>1</td>
+<td>Sean received both the 5th highest and the 5th lowest mark in the class. How many students are there in the class?</td>
+<td>?</td>
+<td>9</td>
+<td>23.910</td>
+<td>1</td>
+<td>In an athletics team, females are four times more likely to win a medal than males. This year the team has won 20 medals so far. How many of these have been won by males?</td>
+<td>?</td>
+<td>4</td>
+<td>274.190</td>
+<td>1</td>
+<td>3</td>
+<td>HIGH</td>
+<td>Yes, We can!</td>
+<td>Barack Obama</td>
+<td>2008</td>
+<td>Public appearance</td>
+<td>2</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>gold_question</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>https://www.bartleby.com/essay/Barack-Obama-Yes-We-Can!-Famous-Speech-F3B9QC84C8BRA</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>0</td>
+<td>neither-agree-nor-disagree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>53.410</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>unit_1</td>
+<td>10</td>
+<td>4</td>
+<td>9</td>
+<td>11</td>
+<td>1</td>
+<td>What is your age range?</td>
+<td>26-35</td>
+<td>2</td>
+<td>What is the highest level of school you have completed or the highest degree you have received?</td>
+<td>Some college (some community college, associate&#226;&#8364;&#8482;s degree)</td>
+<td>2</td>
+<td>Last year what was your total family income from all sources, before taxes?</td>
+<td>30,000 to less than 40,000</td>
+<td>3</td>
+<td>In general, would you describe your political views as</td>
+<td>Very liberal</td>
+<td>4</td>
+<td>In politics today, do you consider yourself a</td>
+<td>Independent</td>
+<td>2</td>
+<td>Should the U.S. build a wall along the southern border?</td>
+<td>Disagree</td>
+<td>1</td>
+<td>Should the government increase environmental regulations to prevent climate change?</td>
+<td>Agree</td>
+<td>0</td>
+<td>38.600</td>
+<td>1</td>
+<td>If three farmers can plant three trees in three hours, how long (i.e., how many hours) would it take nine farmers to plant nine trees?</td>
+<td>?</td>
+<td>1</td>
+<td>17.980</td>
+<td>1</td>
+<td>Sean received both the 5th highest and the 5th lowest mark in the class. How many students are there in the class?</td>
+<td>?</td>
+<td>9</td>
+<td>23.910</td>
+<td>1</td>
+<td>In an athletics team, females are four times more likely to win a medal than males. This year the team has won 20 medals so far. How many of these have been won by males?</td>
+<td>?</td>
+<td>4</td>
+<td>274.190</td>
+<td>1</td>
+<td>4</td>
+<td>REP_HALFTRUE_doc10</td>
+<td>In the fall of 2009 only 21 percent of Texas high school graduates enrolled in a fouryear public university</td>
+<td>Todd Staples</td>
+<td>2010</td>
+<td>social media</td>
+<td>4</td>
+<td>?</td>
+<td>?</td>
+<td>half-true</td>
+<td>politifact</td>
+<td>0</td>
+<td>neither-agree-nor-disagree</td>
+<td>?</td>
+<td>https://www.dallasnews.com/news/education/2011/08/27/students-in-wealthier-texas-districts-much-likelier-to-go-to-out-of-state-colleges/</td>
+<td>-1</td>
+<td>disagree</td>
+<td>?</td>
+<td>?</td>
+<td>0</td>
+<td>neither-agree-nor-disagree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>0</td>
+<td>neither-agree-nor-disagree</td>
+<td>?</td>
+<td>?</td>
+<td>2</td>
+<td>completely-agree</td>
+<td>?</td>
+<td>?</td>
+<td>1</td>
+<td>361.840</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section>
+<h4 id="l2">Data table Visualizations</h4>
+<img src="image1.png" width="800" height="600" alt="Image: Data table Visualizations"/>
+</section>
+<section>
+<h4 id="l3">Data table Visualizations</h4>
+<img src="image2.png" width="800" height="600" alt="Image: Data table Visualizations"/>
+</section>
+</div>
+
+<footer><p>Generated with RapidMiner Studio. More information at <a href="https://www.rapidminer.com">www.rapidminer.com</a></p></footer>
+</body>
+</html>
