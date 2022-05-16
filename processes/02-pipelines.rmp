@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><process version="9.10.007">
+<?xml version="1.0" encoding="UTF-8"?><process version="9.10.008">
   <context>
     <input/>
     <output/>
     <macros/>
   </context>
-  <operator activated="true" class="process" compatibility="9.10.007" expanded="true" name="Process">
+  <operator activated="true" class="process" compatibility="9.10.008" expanded="true" name="Process">
     <parameter key="logverbosity" value="init"/>
     <parameter key="random_seed" value="2001"/>
     <parameter key="send_mail" value="never"/>
@@ -12,11 +12,26 @@
     <parameter key="process_duration_for_mail" value="30"/>
     <parameter key="encoding" value="SYSTEM"/>
     <process expanded="true">
-      <operator activated="true" class="text:filter_stopwords_english" compatibility="9.4.000" expanded="true" height="68" name="Filter Stopwords (English)" width="90" x="112" y="85"/>
-      <operator activated="true" class="text:stem_porter" compatibility="9.4.000" expanded="true" height="68" name="Stem (Porter)" width="90" x="112" y="187"/>
-      <operator activated="true" class="model_simulator:text_vectorization" compatibility="9.10.001" expanded="true" height="103" name="Text Vectorization" width="90" x="313" y="187">
-        <parameter key="attribute_filter_type" value="all"/>
+      <operator activated="true" class="retrieve" compatibility="9.10.008" expanded="true" height="68" name="Retrieve multidimensional_with_crt" width="90" x="112" y="85">
+        <parameter key="repository_entry" value="../data/multidimensional_with_crt"/>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="9.10.008" expanded="true" height="82" name="Select relevant attrs" width="90" x="246" y="85">
+        <parameter key="attribute_filter_type" value="subset"/>
         <parameter key="attribute" value=""/>
+        <parameter key="attributes" value="doc_statement|doc_overall-truthfulness_label"/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="value_matrix_row_start"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="nominal_to_text" compatibility="9.10.008" expanded="true" height="82" name="Nominal to Text" width="90" x="380" y="85">
+        <parameter key="attribute_filter_type" value="single"/>
+        <parameter key="attribute" value="doc_statement"/>
         <parameter key="attributes" value=""/>
         <parameter key="use_except_expression" value="false"/>
         <parameter key="value_type" value="nominal"/>
@@ -24,231 +39,237 @@
         <parameter key="except_value_type" value="file_path"/>
         <parameter key="block_type" value="single_value"/>
         <parameter key="use_block_type_exception" value="false"/>
+        <parameter key="except_block_type" value="single_value"/>
+        <parameter key="invert_selection" value="false"/>
+        <parameter key="include_special_attributes" value="false"/>
+      </operator>
+      <operator activated="true" class="text:process_document_from_data" compatibility="9.4.000" expanded="true" height="82" name="Process Documents from Data" width="90" x="112" y="187">
+        <parameter key="create_word_vector" value="true"/>
+        <parameter key="vector_creation" value="TF-IDF"/>
+        <parameter key="add_meta_information" value="true"/>
+        <parameter key="keep_text" value="true"/>
+        <parameter key="prune_method" value="absolute"/>
+        <parameter key="prune_below_percent" value="3.0"/>
+        <parameter key="prune_above_percent" value="30.0"/>
+        <parameter key="prune_below_absolute" value="2"/>
+        <parameter key="prune_above_absolute" value="999"/>
+        <parameter key="prune_below_rank" value="0.05"/>
+        <parameter key="prune_above_rank" value="0.95"/>
+        <parameter key="datamanagement" value="double_sparse_array"/>
+        <parameter key="data_management" value="auto"/>
+        <parameter key="select_attributes_and_weights" value="false"/>
+        <list key="specify_weights"/>
+        <process expanded="true">
+          <operator activated="true" class="text:transform_cases" compatibility="9.4.000" expanded="true" height="68" name="Transform Cases" width="90" x="179" y="34">
+            <parameter key="transform_to" value="lower case"/>
+          </operator>
+          <operator activated="true" class="text:tokenize" compatibility="9.4.000" expanded="true" height="68" name="Tokenize" width="90" x="313" y="34">
+            <parameter key="mode" value="non letters"/>
+            <parameter key="characters" value=".:"/>
+            <parameter key="language" value="English"/>
+            <parameter key="max_token_length" value="3"/>
+          </operator>
+          <operator activated="true" class="text:filter_stopwords_english" compatibility="9.4.000" expanded="true" height="68" name="Filter Stopwords (English)" width="90" x="447" y="34"/>
+          <operator activated="true" class="text:stem_snowball" compatibility="9.4.000" expanded="true" height="68" name="Stem (Snowball)" width="90" x="179" y="136">
+            <parameter key="language" value="English"/>
+          </operator>
+          <operator activated="true" class="text:filter_by_length" compatibility="9.4.000" expanded="true" height="68" name="Filter Tokens (by Length)" width="90" x="313" y="136">
+            <parameter key="min_chars" value="1"/>
+            <parameter key="max_chars" value="999"/>
+          </operator>
+          <connect from_port="document" to_op="Transform Cases" to_port="document"/>
+          <connect from_op="Transform Cases" from_port="document" to_op="Tokenize" to_port="document"/>
+          <connect from_op="Tokenize" from_port="document" to_op="Filter Stopwords (English)" to_port="document"/>
+          <connect from_op="Filter Stopwords (English)" from_port="document" to_op="Stem (Snowball)" to_port="document"/>
+          <connect from_op="Stem (Snowball)" from_port="document" to_op="Filter Tokens (by Length)" to_port="document"/>
+          <connect from_op="Filter Tokens (by Length)" from_port="document" to_port="document 1"/>
+          <portSpacing port="source_document" spacing="0"/>
+          <portSpacing port="sink_document 1" spacing="0"/>
+          <portSpacing port="sink_document 2" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="select_attributes" compatibility="9.10.008" expanded="true" height="82" name="Filter out missing values" width="90" x="246" y="187">
+        <parameter key="attribute_filter_type" value="no_missing_values"/>
+        <parameter key="attribute" value=""/>
+        <parameter key="attributes" value=""/>
+        <parameter key="use_except_expression" value="false"/>
+        <parameter key="value_type" value="attribute_value"/>
+        <parameter key="use_value_type_exception" value="false"/>
+        <parameter key="except_value_type" value="time"/>
+        <parameter key="block_type" value="attribute_block"/>
+        <parameter key="use_block_type_exception" value="false"/>
         <parameter key="except_block_type" value="value_matrix_row_start"/>
         <parameter key="invert_selection" value="false"/>
         <parameter key="include_special_attributes" value="false"/>
-        <parameter key="add sentiment" value="false"/>
-        <parameter key="add language" value="false"/>
-        <parameter key="keep original" value="false"/>
-        <parameter key="store training documents" value="true"/>
-        <parameter key="store scoring documents" value="false"/>
-        <parameter key="document class attribute" value=""/>
-        <parameter key="token split" value="\s+"/>
-        <parameter key="apply pruning" value="true"/>
-        <parameter key="max number of new columns" value="1000"/>
       </operator>
-      <operator activated="true" class="multiply" compatibility="9.10.007" expanded="true" height="166" name="Multiply (2)" width="90" x="514" y="85"/>
-      <operator activated="true" class="concurrency:parallel_random_forest" compatibility="9.10.007" expanded="true" height="103" name="Random Forest" width="90" x="715" y="391">
-        <parameter key="number_of_trees" value="100"/>
-        <parameter key="criterion" value="gain_ratio"/>
-        <parameter key="maximal_depth" value="10"/>
-        <parameter key="apply_pruning" value="false"/>
-        <parameter key="confidence" value="0.1"/>
-        <parameter key="apply_prepruning" value="false"/>
-        <parameter key="minimal_gain" value="0.01"/>
-        <parameter key="minimal_leaf_size" value="2"/>
-        <parameter key="minimal_size_for_split" value="4"/>
-        <parameter key="number_of_prepruning_alternatives" value="3"/>
-        <parameter key="random_splits" value="false"/>
-        <parameter key="guess_subset_ratio" value="true"/>
-        <parameter key="subset_ratio" value="0.2"/>
-        <parameter key="voting_strategy" value="confidence vote"/>
+      <operator activated="true" class="set_role" compatibility="9.10.008" expanded="true" height="82" name="Set Role" width="90" x="380" y="187">
+        <parameter key="attribute_name" value="doc_overall-truthfulness_label"/>
+        <parameter key="target_role" value="label"/>
+        <list key="set_additional_roles"/>
+      </operator>
+      <operator activated="true" class="multiply" compatibility="9.10.008" expanded="true" height="124" name="Training" width="90" x="179" y="391"/>
+      <operator activated="true" class="concurrency:cross_validation" compatibility="9.10.008" expanded="true" height="145" name="Decision Tree-CV" width="90" x="313" y="697">
+        <parameter key="split_on_batch_attribute" value="false"/>
+        <parameter key="leave_one_out" value="false"/>
+        <parameter key="number_of_folds" value="10"/>
+        <parameter key="sampling_type" value="automatic"/>
         <parameter key="use_local_random_seed" value="false"/>
         <parameter key="local_random_seed" value="1992"/>
         <parameter key="enable_parallel_execution" value="true"/>
-      </operator>
-      <operator activated="true" class="naive_bayes" compatibility="9.10.007" expanded="true" height="82" name="Naive Bayes" width="90" x="715" y="289">
-        <parameter key="laplace_correction" value="true"/>
-      </operator>
-      <operator activated="true" class="perceptron" compatibility="9.10.007" expanded="true" height="82" name="Perceptron" width="90" x="715" y="187">
-        <parameter key="rounds" value="3"/>
-        <parameter key="learning_rate" value="0.05"/>
-      </operator>
-      <operator activated="true" class="h2o:gradient_boosted_trees" compatibility="9.10.001" expanded="true" height="103" name="Gradient Boosted Trees" width="90" x="715" y="85">
-        <parameter key="number_of_trees" value="50"/>
-        <parameter key="reproducible" value="false"/>
-        <parameter key="maximum_number_of_threads" value="4"/>
-        <parameter key="use_local_random_seed" value="false"/>
-        <parameter key="local_random_seed" value="1992"/>
-        <parameter key="maximal_depth" value="5"/>
-        <parameter key="min_rows" value="10.0"/>
-        <parameter key="min_split_improvement" value="1.0E-5"/>
-        <parameter key="number_of_bins" value="20"/>
-        <parameter key="learning_rate" value="0.01"/>
-        <parameter key="sample_rate" value="1.0"/>
-        <parameter key="distribution" value="AUTO"/>
-        <parameter key="early_stopping" value="false"/>
-        <parameter key="stopping_rounds" value="1"/>
-        <parameter key="stopping_metric" value="AUTO"/>
-        <parameter key="stopping_tolerance" value="0.001"/>
-        <list key="monotone_constraints"/>
-        <parameter key="max_runtime_seconds" value="0"/>
-        <list key="expert_parameters"/>
-      </operator>
-      <operator activated="true" class="compare_rocs" compatibility="9.10.007" expanded="true" height="82" name="Compare ROCs" width="90" x="514" y="340">
-        <parameter key="number_of_folds" value="10"/>
-        <parameter key="split_ratio" value="0.7"/>
-        <parameter key="sampling_type" value="stratified sampling"/>
-        <parameter key="use_local_random_seed" value="false"/>
-        <parameter key="local_random_seed" value="1992"/>
-        <parameter key="use_example_weights" value="true"/>
-        <parameter key="roc_bias" value="optimistic"/>
         <process expanded="true">
-          <operator activated="true" class="concurrency:parallel_random_forest" compatibility="9.10.007" expanded="true" height="103" name="Random Forest (2)" width="90" x="447" y="340">
-            <parameter key="number_of_trees" value="100"/>
+          <operator activated="true" class="concurrency:parallel_decision_tree" compatibility="9.10.008" expanded="true" height="103" name="Decision Tree" width="90" x="112" y="34">
             <parameter key="criterion" value="gain_ratio"/>
             <parameter key="maximal_depth" value="10"/>
-            <parameter key="apply_pruning" value="false"/>
+            <parameter key="apply_pruning" value="true"/>
             <parameter key="confidence" value="0.1"/>
-            <parameter key="apply_prepruning" value="false"/>
+            <parameter key="apply_prepruning" value="true"/>
             <parameter key="minimal_gain" value="0.01"/>
             <parameter key="minimal_leaf_size" value="2"/>
             <parameter key="minimal_size_for_split" value="4"/>
             <parameter key="number_of_prepruning_alternatives" value="3"/>
-            <parameter key="random_splits" value="false"/>
-            <parameter key="guess_subset_ratio" value="true"/>
-            <parameter key="subset_ratio" value="0.2"/>
-            <parameter key="voting_strategy" value="confidence vote"/>
-            <parameter key="use_local_random_seed" value="false"/>
-            <parameter key="local_random_seed" value="1992"/>
-            <parameter key="enable_parallel_execution" value="true"/>
           </operator>
-          <operator activated="true" class="naive_bayes" compatibility="9.10.007" expanded="true" height="82" name="Naive Bayes (2)" width="90" x="447" y="238">
+          <connect from_port="training set" to_op="Decision Tree" to_port="training set"/>
+          <connect from_op="Decision Tree" from_port="model" to_port="model"/>
+          <portSpacing port="source_training set" spacing="0"/>
+          <portSpacing port="sink_model" spacing="0"/>
+          <portSpacing port="sink_through 1" spacing="0"/>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="apply_model" compatibility="9.10.008" expanded="true" height="82" name="Apply Model (6)" width="90" x="112" y="34">
+            <list key="application_parameters"/>
+            <parameter key="create_view" value="false"/>
+          </operator>
+          <operator activated="true" class="performance" compatibility="9.10.008" expanded="true" height="82" name="Decision Tree per" width="90" x="112" y="187">
+            <parameter key="use_example_weights" value="true"/>
+          </operator>
+          <connect from_port="model" to_op="Apply Model (6)" to_port="model"/>
+          <connect from_port="test set" to_op="Apply Model (6)" to_port="unlabelled data"/>
+          <connect from_op="Apply Model (6)" from_port="labelled data" to_op="Decision Tree per" to_port="labelled data"/>
+          <connect from_op="Decision Tree per" from_port="performance" to_port="performance 1"/>
+          <portSpacing port="source_model" spacing="0"/>
+          <portSpacing port="source_test set" spacing="0"/>
+          <portSpacing port="source_through 1" spacing="0"/>
+          <portSpacing port="sink_test set results" spacing="0"/>
+          <portSpacing port="sink_performance 1" spacing="0"/>
+          <portSpacing port="sink_performance 2" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="concurrency:cross_validation" compatibility="9.10.008" expanded="true" height="145" name="Naive Bayes-CV" width="90" x="313" y="544">
+        <parameter key="split_on_batch_attribute" value="false"/>
+        <parameter key="leave_one_out" value="false"/>
+        <parameter key="number_of_folds" value="10"/>
+        <parameter key="sampling_type" value="automatic"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <parameter key="enable_parallel_execution" value="true"/>
+        <process expanded="true">
+          <operator activated="true" class="naive_bayes" compatibility="9.10.008" expanded="true" height="82" name="Naive Bayes" width="90" x="112" y="34">
             <parameter key="laplace_correction" value="true"/>
           </operator>
-          <operator activated="true" class="perceptron" compatibility="9.10.007" expanded="true" height="82" name="Perceptron (2)" width="90" x="447" y="136">
-            <parameter key="rounds" value="3"/>
-            <parameter key="learning_rate" value="0.05"/>
+          <connect from_port="training set" to_op="Naive Bayes" to_port="training set"/>
+          <connect from_op="Naive Bayes" from_port="model" to_port="model"/>
+          <portSpacing port="source_training set" spacing="0"/>
+          <portSpacing port="sink_model" spacing="0"/>
+          <portSpacing port="sink_through 1" spacing="0"/>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="apply_model" compatibility="9.10.008" expanded="true" height="82" name="Apply Model (5)" width="90" x="112" y="34">
+            <list key="application_parameters"/>
+            <parameter key="create_view" value="false"/>
           </operator>
-          <operator activated="true" class="h2o:gradient_boosted_trees" compatibility="9.10.001" expanded="true" height="103" name="Gradient Boosted Trees (2)" width="90" x="447" y="34">
-            <parameter key="number_of_trees" value="50"/>
-            <parameter key="reproducible" value="false"/>
-            <parameter key="maximum_number_of_threads" value="4"/>
-            <parameter key="use_local_random_seed" value="false"/>
-            <parameter key="local_random_seed" value="1992"/>
-            <parameter key="maximal_depth" value="5"/>
-            <parameter key="min_rows" value="10.0"/>
-            <parameter key="min_split_improvement" value="1.0E-5"/>
-            <parameter key="number_of_bins" value="20"/>
-            <parameter key="learning_rate" value="0.01"/>
-            <parameter key="sample_rate" value="1.0"/>
-            <parameter key="distribution" value="AUTO"/>
-            <parameter key="early_stopping" value="false"/>
-            <parameter key="stopping_rounds" value="1"/>
-            <parameter key="stopping_metric" value="AUTO"/>
-            <parameter key="stopping_tolerance" value="0.001"/>
-            <list key="monotone_constraints"/>
-            <parameter key="max_runtime_seconds" value="0"/>
-            <list key="expert_parameters"/>
+          <operator activated="true" class="performance" compatibility="9.10.008" expanded="true" height="82" name="Naive Bayes per" width="90" x="112" y="187">
+            <parameter key="use_example_weights" value="true"/>
           </operator>
-          <operator activated="true" class="support_vector_machine" compatibility="9.10.007" expanded="true" height="124" name="SVM (2)" width="90" x="447" y="442">
-            <parameter key="kernel_type" value="dot"/>
+          <connect from_port="model" to_op="Apply Model (5)" to_port="model"/>
+          <connect from_port="test set" to_op="Apply Model (5)" to_port="unlabelled data"/>
+          <connect from_op="Apply Model (5)" from_port="labelled data" to_op="Naive Bayes per" to_port="labelled data"/>
+          <connect from_op="Naive Bayes per" from_port="performance" to_port="performance 1"/>
+          <portSpacing port="source_model" spacing="0"/>
+          <portSpacing port="source_test set" spacing="0"/>
+          <portSpacing port="source_through 1" spacing="0"/>
+          <portSpacing port="sink_test set results" spacing="0"/>
+          <portSpacing port="sink_performance 1" spacing="0"/>
+          <portSpacing port="sink_performance 2" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="concurrency:cross_validation" compatibility="9.10.008" expanded="true" height="145" name="KNN-CV" width="90" x="313" y="391">
+        <parameter key="split_on_batch_attribute" value="false"/>
+        <parameter key="leave_one_out" value="false"/>
+        <parameter key="number_of_folds" value="5"/>
+        <parameter key="sampling_type" value="shuffled sampling"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <parameter key="enable_parallel_execution" value="true"/>
+        <process expanded="true">
+          <operator activated="true" class="k_nn" compatibility="9.10.008" expanded="true" height="82" name="k-NN" width="90" x="112" y="34">
+            <parameter key="k" value="5"/>
+            <parameter key="weighted_vote" value="true"/>
+            <parameter key="measure_types" value="NumericalMeasures"/>
+            <parameter key="mixed_measure" value="MixedEuclideanDistance"/>
+            <parameter key="nominal_measure" value="NominalDistance"/>
+            <parameter key="numerical_measure" value="CosineSimilarity"/>
+            <parameter key="divergence" value="GeneralizedIDivergence"/>
+            <parameter key="kernel_type" value="radial"/>
             <parameter key="kernel_gamma" value="1.0"/>
             <parameter key="kernel_sigma1" value="1.0"/>
             <parameter key="kernel_sigma2" value="0.0"/>
             <parameter key="kernel_sigma3" value="2.0"/>
+            <parameter key="kernel_degree" value="3.0"/>
             <parameter key="kernel_shift" value="1.0"/>
-            <parameter key="kernel_degree" value="2.0"/>
             <parameter key="kernel_a" value="1.0"/>
             <parameter key="kernel_b" value="0.0"/>
-            <parameter key="kernel_cache" value="200"/>
-            <parameter key="C" value="0.0"/>
-            <parameter key="convergence_epsilon" value="0.001"/>
-            <parameter key="max_iterations" value="100000"/>
-            <parameter key="scale" value="true"/>
-            <parameter key="calculate_weights" value="true"/>
-            <parameter key="return_optimization_performance" value="true"/>
-            <parameter key="L_pos" value="1.0"/>
-            <parameter key="L_neg" value="1.0"/>
-            <parameter key="epsilon" value="0.0"/>
-            <parameter key="epsilon_plus" value="0.0"/>
-            <parameter key="epsilon_minus" value="0.0"/>
-            <parameter key="balance_cost" value="false"/>
-            <parameter key="quadratic_loss_pos" value="false"/>
-            <parameter key="quadratic_loss_neg" value="false"/>
-            <parameter key="estimate_performance" value="false"/>
           </operator>
-          <connect from_port="train 1" to_op="Gradient Boosted Trees (2)" to_port="training set"/>
-          <connect from_port="train 2" to_op="Perceptron (2)" to_port="training set"/>
-          <connect from_port="train 3" to_op="Naive Bayes (2)" to_port="training set"/>
-          <connect from_port="train 4" to_op="Random Forest (2)" to_port="training set"/>
-          <connect from_port="train 5" to_op="SVM (2)" to_port="training set"/>
-          <connect from_op="Random Forest (2)" from_port="model" to_port="model 4"/>
-          <connect from_op="Naive Bayes (2)" from_port="model" to_port="model 3"/>
-          <connect from_op="Perceptron (2)" from_port="model" to_port="model 2"/>
-          <connect from_op="Gradient Boosted Trees (2)" from_port="model" to_port="model 1"/>
-          <connect from_op="SVM (2)" from_port="model" to_port="model 5"/>
-          <portSpacing port="source_train 1" spacing="0"/>
-          <portSpacing port="source_train 2" spacing="0"/>
-          <portSpacing port="source_train 3" spacing="0"/>
-          <portSpacing port="source_train 4" spacing="0"/>
-          <portSpacing port="source_train 5" spacing="0"/>
-          <portSpacing port="source_train 6" spacing="0"/>
-          <portSpacing port="sink_model 1" spacing="0"/>
-          <portSpacing port="sink_model 2" spacing="0"/>
-          <portSpacing port="sink_model 3" spacing="0"/>
-          <portSpacing port="sink_model 4" spacing="0"/>
-          <portSpacing port="sink_model 5" spacing="0"/>
-          <portSpacing port="sink_model 6" spacing="0"/>
+          <connect from_port="training set" to_op="k-NN" to_port="training set"/>
+          <connect from_op="k-NN" from_port="model" to_port="model"/>
+          <portSpacing port="source_training set" spacing="0"/>
+          <portSpacing port="sink_model" spacing="0"/>
+          <portSpacing port="sink_through 1" spacing="0"/>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="apply_model" compatibility="9.10.008" expanded="true" height="82" name="Apply Model (4)" width="90" x="179" y="34">
+            <list key="application_parameters"/>
+            <parameter key="create_view" value="false"/>
+          </operator>
+          <operator activated="true" class="performance" compatibility="9.10.008" expanded="true" height="82" name="KNN per" width="90" x="179" y="187">
+            <parameter key="use_example_weights" value="true"/>
+          </operator>
+          <connect from_port="model" to_op="Apply Model (4)" to_port="model"/>
+          <connect from_port="test set" to_op="Apply Model (4)" to_port="unlabelled data"/>
+          <connect from_op="Apply Model (4)" from_port="labelled data" to_op="KNN per" to_port="labelled data"/>
+          <connect from_op="KNN per" from_port="performance" to_port="performance 1"/>
+          <portSpacing port="source_model" spacing="0"/>
+          <portSpacing port="source_test set" spacing="0"/>
+          <portSpacing port="source_through 1" spacing="0"/>
+          <portSpacing port="sink_test set results" spacing="0"/>
+          <portSpacing port="sink_performance 1" spacing="0"/>
+          <portSpacing port="sink_performance 2" spacing="0"/>
         </process>
       </operator>
-      <operator activated="true" class="generate_tfidf" compatibility="9.10.007" expanded="true" height="82" name="Generate TFIDF" width="90" x="313" y="85">
-        <parameter key="calculate_term_frequencies" value="true"/>
-      </operator>
-      <operator activated="true" class="support_vector_machine" compatibility="9.10.007" expanded="true" height="124" name="SVM" width="90" x="715" y="493">
-        <parameter key="kernel_type" value="dot"/>
-        <parameter key="kernel_gamma" value="1.0"/>
-        <parameter key="kernel_sigma1" value="1.0"/>
-        <parameter key="kernel_sigma2" value="0.0"/>
-        <parameter key="kernel_sigma3" value="2.0"/>
-        <parameter key="kernel_shift" value="1.0"/>
-        <parameter key="kernel_degree" value="2.0"/>
-        <parameter key="kernel_a" value="1.0"/>
-        <parameter key="kernel_b" value="0.0"/>
-        <parameter key="kernel_cache" value="200"/>
-        <parameter key="C" value="0.0"/>
-        <parameter key="convergence_epsilon" value="0.001"/>
-        <parameter key="max_iterations" value="100000"/>
-        <parameter key="scale" value="true"/>
-        <parameter key="calculate_weights" value="true"/>
-        <parameter key="return_optimization_performance" value="true"/>
-        <parameter key="L_pos" value="1.0"/>
-        <parameter key="L_neg" value="1.0"/>
-        <parameter key="epsilon" value="0.0"/>
-        <parameter key="epsilon_plus" value="0.0"/>
-        <parameter key="epsilon_minus" value="0.0"/>
-        <parameter key="balance_cost" value="false"/>
-        <parameter key="quadratic_loss_pos" value="false"/>
-        <parameter key="quadratic_loss_neg" value="false"/>
-        <parameter key="estimate_performance" value="false"/>
-      </operator>
-      <connect from_port="input 1" to_op="Filter Stopwords (English)" to_port="document"/>
-      <connect from_op="Filter Stopwords (English)" from_port="document" to_op="Stem (Porter)" to_port="document"/>
-      <connect from_op="Stem (Porter)" from_port="document" to_op="Text Vectorization" to_port="example set input"/>
-      <connect from_op="Text Vectorization" from_port="example set output" to_op="Multiply (2)" to_port="input"/>
-      <connect from_op="Multiply (2)" from_port="output 1" to_op="Gradient Boosted Trees" to_port="training set"/>
-      <connect from_op="Multiply (2)" from_port="output 2" to_op="Perceptron" to_port="training set"/>
-      <connect from_op="Multiply (2)" from_port="output 3" to_op="Naive Bayes" to_port="training set"/>
-      <connect from_op="Multiply (2)" from_port="output 4" to_op="Random Forest" to_port="training set"/>
-      <connect from_op="Multiply (2)" from_port="output 5" to_op="SVM" to_port="training set"/>
-      <connect from_op="Random Forest" from_port="exampleSet" to_port="result 4"/>
-      <connect from_op="Naive Bayes" from_port="exampleSet" to_port="result 3"/>
-      <connect from_op="Perceptron" from_port="exampleSet" to_port="result 2"/>
-      <connect from_op="Gradient Boosted Trees" from_port="exampleSet" to_port="result 1"/>
-      <connect from_op="SVM" from_port="exampleSet" to_port="result 5"/>
+      <connect from_op="Retrieve multidimensional_with_crt" from_port="output" to_op="Select relevant attrs" to_port="example set input"/>
+      <connect from_op="Select relevant attrs" from_port="example set output" to_op="Nominal to Text" to_port="example set input"/>
+      <connect from_op="Nominal to Text" from_port="example set output" to_op="Process Documents from Data" to_port="example set"/>
+      <connect from_op="Process Documents from Data" from_port="example set" to_op="Filter out missing values" to_port="example set input"/>
+      <connect from_op="Filter out missing values" from_port="example set output" to_op="Set Role" to_port="example set input"/>
+      <connect from_op="Set Role" from_port="example set output" to_op="Training" to_port="input"/>
+      <connect from_op="Training" from_port="output 1" to_op="KNN-CV" to_port="example set"/>
+      <connect from_op="Training" from_port="output 2" to_op="Naive Bayes-CV" to_port="example set"/>
+      <connect from_op="Training" from_port="output 3" to_op="Decision Tree-CV" to_port="example set"/>
+      <connect from_op="Decision Tree-CV" from_port="model" to_port="result 5"/>
+      <connect from_op="Decision Tree-CV" from_port="performance 1" to_port="result 6"/>
+      <connect from_op="Naive Bayes-CV" from_port="model" to_port="result 3"/>
+      <connect from_op="Naive Bayes-CV" from_port="performance 1" to_port="result 4"/>
+      <connect from_op="KNN-CV" from_port="model" to_port="result 1"/>
+      <connect from_op="KNN-CV" from_port="performance 1" to_port="result 2"/>
       <portSpacing port="source_input 1" spacing="0"/>
-      <portSpacing port="source_input 2" spacing="0"/>
       <portSpacing port="sink_result 1" spacing="0"/>
       <portSpacing port="sink_result 2" spacing="0"/>
       <portSpacing port="sink_result 3" spacing="0"/>
       <portSpacing port="sink_result 4" spacing="0"/>
       <portSpacing port="sink_result 5" spacing="0"/>
       <portSpacing port="sink_result 6" spacing="0"/>
-      <description align="center" color="yellow" colored="false" height="244" resized="true" width="142" x="88" y="44">Pre-processing</description>
-      <description align="center" color="yellow" colored="false" height="294" resized="true" width="136" x="290" y="42">NLP tools</description>
-      <description align="center" color="yellow" colored="false" height="589" resized="true" width="160" x="683" y="42">Machine Learning&lt;br/&gt;</description>
-      <description align="center" color="yellow" colored="false" height="234" resized="true" width="138" x="492" y="43">Multiple pipelines</description>
-      <description align="center" color="yellow" colored="false" height="158" resized="true" width="142" x="488" y="304">Compare pipelines</description>
+      <portSpacing port="sink_result 7" spacing="0"/>
+      <description align="center" color="yellow" colored="false" height="284" resized="true" width="429" x="72" y="52">Pre-processing</description>
+      <description align="center" color="yellow" colored="false" height="526" resized="true" width="286" x="148" y="357">Applying ML models</description>
     </process>
   </operator>
 </process>
